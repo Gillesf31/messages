@@ -1,24 +1,25 @@
 import { Injectable } from '@nestjs/common';
+import { MessagesRepository } from './messages.repository';
 
 @Injectable()
 export class MessagesService {
-  messages = [
-    { id: 1, message: 'Hello World' },
-    { id: 2, message: 'Hello Nest' },
-  ];
+  messagesRepo: MessagesRepository;
 
-  getMessages() {
-    return this.messages;
+  constructor() {
+    // Service creating its own dependencies
+    // DON'T DO THIS IN REAL NEST APPS
+    this.messagesRepo = new MessagesRepository();
   }
 
-  getMessage(id: string) {
-    const idNum = parseInt(id, 10);
-    return this.messages.find((message) => message.id === idNum);
+  findAll() {
+    return this.messagesRepo.findAll();
   }
 
-  createMessage(body: any) {
-    this.messages.push(body);
-    console.log(this.messages);
-    return body;
+  findOne(id: string) {
+    return this.messagesRepo.findOne(id);
+  }
+
+  create(content: string) {
+    return this.messagesRepo.create(content);
   }
 }

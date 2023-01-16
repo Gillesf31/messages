@@ -4,19 +4,24 @@ import { CreateMessageDto } from './dtos/create-message.dto';
 
 @Controller('messages')
 export class MessagesController {
-  constructor(private readonly messagesService: MessagesService) {}
+  messagesService: MessagesService;
+
+  constructor() {
+    this.messagesService = new MessagesService();
+  }
+
   @Get()
   listMessages() {
-    return this.messagesService.getMessages();
+    return this.messagesService.findAll();
   }
 
   @Post()
   createMessage(@Body() body: CreateMessageDto) {
-    return this.messagesService.createMessage(body);
+    return this.messagesService.create(body.content);
   }
 
   @Get(':id')
   getMessage(@Param('id') id: string) {
-    return this.messagesService.getMessage(id);
+    return this.messagesService.findOne(id);
   }
 }
