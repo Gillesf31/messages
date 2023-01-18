@@ -3,13 +3,7 @@ import { MessagesRepository } from './messages.repository';
 
 @Injectable()
 export class MessagesService {
-  messagesRepo: MessagesRepository;
-
-  constructor() {
-    // Service creating its own dependencies
-    // DON'T DO THIS IN REAL NEST APPS
-    this.messagesRepo = new MessagesRepository();
-  }
+  constructor(private readonly messagesRepo: MessagesRepository) {}
 
   findAll() {
     return this.messagesRepo.findAll();
